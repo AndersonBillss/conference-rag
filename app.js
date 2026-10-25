@@ -83,6 +83,7 @@ const ragInput = document.getElementById('rag-input');
 const ragBtn = document.getElementById('rag-btn');
 const ragResults = document.getElementById('rag-results');
 const ragStatus = document.getElementById('rag-status');
+const ragAnswerStyle = document.getElementById('rag-answer-style');
 
 // ============================================
 // SETUP BANNER DETECTION
@@ -521,6 +522,7 @@ async function semanticSearch() {
 
 async function askQuestion() {
     const question = ragInput ? ragInput.value.trim() : '';
+    const answerStyle = ragAnswerStyle ? ragAnswerStyle.value : 'brief';
     if (!question || !supabaseClient) return;
 
     showLoading(true);
@@ -540,7 +542,7 @@ async function askQuestion() {
         const enrichedTalks = await fetchFullTalkText(topTalks);
 
         // Step 5: Generate answer with full context
-        const answer = await generateAnswer(question, enrichedTalks);
+        const answer = await generateAnswer(question, enrichedTalks, answerStyle);
 
         // Compute overall similarity (weighted avg across source talks)
         const overallSimilarity = topTalks.reduce((sum, t) => sum + t.avgSimilarity, 0) / topTalks.length;
@@ -681,11 +683,12 @@ async function fetchFullTalkText(talks) {
 }
 
 // Generate answer via Edge Function
-async function generateAnswer(question, contextTalks) {
+async function generateAnswer(question, contextTalks, answerStyle = 'brief') {
     const { data, error } = await supabaseClient.functions.invoke('generate-answer', {
         body: {
             question: question,
-            context_talks: contextTalks
+            context_talks: contextTalks,
+            answer_style: answerStyle
         }
     });
 

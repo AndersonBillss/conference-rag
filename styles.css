@@ -522,6 +522,38 @@ input:focus {
     margin-bottom: var(--spacing-md);
 }
 
+.answer-style-control {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    max-width: 320px;
+    margin-bottom: var(--spacing-sm);
+}
+
+.answer-style-control label {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+.answer-style-control select {
+    flex: 1;
+    min-width: 0;
+    padding: var(--spacing-sm);
+    background: var(--surface);
+    border: 2px solid var(--surface-light);
+    border-radius: var(--radius-md);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.answer-style-control select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(62, 207, 142, 0.1);
+}
+
 .panel-input input {
     flex: 1;
 }
